@@ -38,11 +38,11 @@ const HeroSection = () => {
                         alignItems: "center",
                         marginY: "20%"
                     }}>
-                        <Twitter className={"hero-section-icon"}/>
-                        <Instagram className={"hero-section-icon"}/>
-                        <Facebook className={"hero-section-icon"}/>
-                        <Pinterest className={"hero-section-icon"}/>
-                        <LinkedIn className={"hero-section-icon"}/>
+                        <Twitter fontSize={"large"} className={"hero-section-icon"}/>
+                        <Instagram fontSize={"large"} className={"hero-section-icon"}/>
+                        <Facebook fontSize={"large"} className={"hero-section-icon"}/>
+                        <Pinterest fontSize={"large"} className={"hero-section-icon"}/>
+                        <LinkedIn fontSize={"large"} className={"hero-section-icon"}/>
                     </Box>
                 </Grid>
             </Grid>

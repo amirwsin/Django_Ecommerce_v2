@@ -15,6 +15,7 @@
 
 * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -31,6 +32,7 @@ body {
     font-size: 32px !important;
     font-family: 'Satisfy', cursive !important;
     color: var(--background-dark);
+    text-decoration: none;
 }
 
 .navbar-link {
@@ -62,6 +64,71 @@ body {
     transform: scale(1);
 }
 
+.category-trigger {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.category-menu .MuiCollapse-wrapperInner {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    right: 0;
+    color: var(--text);
+    background-color: var(--background-main);
+    z-index: 3;
+    padding: 3rem;
+    box-shadow: 0 2px 8px grey;
+}
+
+.category-menu-inner-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5rem;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-menu-link-parent {
+    display: inline-block;
+    font-size: 1.2rem;
+    position: relative;
+    text-decoration: none;
+    color: var(--background-dark);
+    font-weight: 500;
+    font-family: var(--font-family-default);
+    letter-spacing: -1px;
+}
+.MuiDrawer-paperAnchorLeft{
+    width: 65%;
+}
+.sidebar-menu{
+    position: relative;
+    width: 100%;
+}
+
+.basket-qty {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: var(--text);
+    background-color: var(--secondary);
+    border-radius: 50%;
+    font-size: 14px;
+    padding: 4px 6px;
+
+}
+
+#myBtn {
+    position: fixed;
+    right: 2%;
+    bottom: 3%;
+}
+
 .hero-section {
     position: relative;
     display: block;
@@ -82,6 +149,7 @@ body {
     letter-spacing: -1px !important;
     justify-self: center;
     font-weight: 400 !important;
+    color: var(--text);
 
 }
 
@@ -116,8 +184,8 @@ body {
     flex-wrap: wrap;
     gap: 0.8rem;
     width: 100%;
-    background-color: var(--background-main);
     padding: 2rem;
+    justify-content: center;
 }
 
 .product-card {
@@ -191,6 +259,17 @@ body {
 .footer-list-social-icon:hover {
     background-color: var(--primary-dark);
 }
+
+.form-wrapper{
+    display: grid;
+    position: relative;
+    gap: 1rem;
+    padding: 2rem;
+    margin: 5rem;
+    border-radius: 7px;
+    box-shadow: 2px 2px 8px grey;
+}
+
 
 @media only screen and (max-width: 1200px) {
     .hero-section-image {

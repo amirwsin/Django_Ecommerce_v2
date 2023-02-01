@@ -56,11 +56,11 @@ const Footer = () => {
                                 alignItems: "center",
                                 marginY: "10%"
                             }}>
-                                <Twitter className={"footer-list-social-icon"}/>
-                                <Instagram className={"footer-list-social-icon"}/>
-                                <Facebook className={"footer-list-social-icon"}/>
-                                <Pinterest className={"footer-list-social-icon"}/>
-                                <LinkedIn className={"footer-list-social-icon"}/>
+                                <Twitter fontSize={"large"} className={"footer-list-social-icon"}/>
+                                <Instagram fontSize={"large"} className={"footer-list-social-icon"}/>
+                                <Facebook fontSize={"large"} className={"footer-list-social-icon"}/>
+                                <Pinterest fontSize={"large"} className={"footer-list-social-icon"}/>
+                                <LinkedIn fontSize={"large"} className={"footer-list-social-icon"}/>
                             </Box>
                         </ul>
                     </Grid>
