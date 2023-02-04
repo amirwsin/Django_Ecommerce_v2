@@ -6,16 +6,27 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {Link} from "react-router-dom";
 import {MoreVert, ShoppingCartOutlined} from "@mui/icons-material";
-import {Collapse, Container, Drawer, IconButton, List, ListItemButton, ListItemText} from "@mui/material";
+import {
+    Avatar,
+    Collapse,
+    Container,
+    Drawer,
+    IconButton,
+    Tooltip
+} from "@mui/material";
 import {useState} from "react";
 import CategoryMenuList from "./CategoryMenuList";
 import SideBarMenu from "./SideBarMenu";
+import {useSelector} from "react-redux";
+import {useQuery} from "@tanstack/react-query";
+import {BasicCategoriesApi} from "../api/CategoriesApi";
 
 
 const Navbar = () => {
 
     const [categoryMenuList, setCategoryMenuList] = useState(false)
     const [sideBar, setSideBar] = useState(false)
+    const {user, isAuthenticated} = useSelector(state => state.authReducer)
 
     const handleSideBar = () => {
         setSideBar(prevState => !prevState)
@@ -24,6 +35,12 @@ const Navbar = () => {
     const handleCategoryTriggerClick = () => {
         setCategoryMenuList(prevState => !prevState)
     }
+
+    const categoryQuery = useQuery({
+        queryKey: ["categories"],
+        queryFn: BasicCategoriesApi
+    })
+
 
     return (
         <Box sx={{flexGrow: 1, zIndex: 2, height: "60px"}} component={"header"}>
@@ -39,6 +56,9 @@ const Navbar = () => {
                         <Link to={"/"} className={"navbar-link"}>
                             Home
                         </Link>
+                        <Link to={"/products"} className={"navbar-link"}>
+                            Products
+                        </Link>
                         <span className={"navbar-link category-trigger"} onClick={handleCategoryTriggerClick}>
                             Categories
                         </span>
@@ -51,14 +71,23 @@ const Navbar = () => {
                             <ShoppingCartOutlined/>
                             <span className={"basket-qty"} id={"basket-qty"}>1</span>
                         </IconButton>
-                        <Button component={Link} to={"/login"} color="black" sx={{color: "white"}}
-                                variant={"contained"}>Login</Button>
+                        {isAuthenticated && user ?
+                            <>
+                                <Tooltip title="Profile">
+                                    <IconButton component={Link} to={"/profile"} sx={{p: 0}}>
+                                        <Avatar>A</Avatar>
+                                    </IconButton>
+                                </Tooltip>
+                            </> :
+                            <Button component={Link} to={"/login"} color="black" sx={{color: "white"}}
+                                    variant={"contained"}>Login</Button>}
+
                     </Box>
                 </Toolbar>
             </AppBar>
             <Collapse in={categoryMenuList} className={"category-menu"} timeout="auto" unmountOnExit>
                 <Container maxWidth={"xl"}>
-                    <CategoryMenuList/>
+                    <CategoryMenuList data={categoryQuery.data} isLoading={categoryQuery.isLoading}/>
                 </Container>
             </Collapse>
             <Drawer
@@ -69,7 +98,7 @@ const Navbar = () => {
                 <SideBarMenu/>
             </Drawer>
         </Box>
-)
+    )
 }
 
 export default Navbar

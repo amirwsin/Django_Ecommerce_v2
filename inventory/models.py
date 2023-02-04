@@ -22,10 +22,19 @@ class Category(MPTTModel):
         verbose_name=_("category safe url"),
         help_text=_("format : required , letters, numbers , underscore or hyphens"),
     )
+    image = models.ImageField(
+        unique=False,
+        null=False,
+        blank=False,
+        verbose_name=_("category image"),
+        upload_to="images/categories/",
+        default="images/categories/default.png",
+        help_text=_("format : required , default-default.png"),
+    )
     is_active = models.BooleanField(default=True)
     parent = TreeForeignKey(
         "self",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         related_name="children",
         null=True,
         blank=True,
@@ -161,7 +170,7 @@ class ProductAttributeValue(models.Model):
     product_attribute = models.ForeignKey(
         ProductAttribute,
         related_name="product_attribute",
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
     attribute_value = models.CharField(
         max_length=255,
@@ -194,13 +203,13 @@ class ProductInventory(models.Model):
         help_text=_("format : required , unique , max-12")
     )
     product_type = models.ForeignKey(
-        ProductType, related_name="product_type", on_delete=models.PROTECT
+        ProductType, related_name="product_type", on_delete=models.SET_NULL, null=True, blank=True,
     )
     product = models.ForeignKey(
-        Product, related_name="product", on_delete=models.PROTECT
+        Product, related_name="product", on_delete=models.CASCADE, null=True, blank=True,
     )
     brand = models.ForeignKey(
-        Brand, related_name="brand", on_delete=models.PROTECT
+        Brand, related_name="brand", on_delete=models.SET_NULL, null=True, blank=True,
     )
     attribute_values = models.ManyToManyField(
         ProductAttributeValue,
@@ -284,13 +293,13 @@ class ProductInventory(models.Model):
     )
 
     def __str__(self):
-        return self.product.name
+        return f"{self.id} : {self.product.name}"
 
 
 class Media(models.Model):
     product_inventory = models.ForeignKey(
         ProductInventory,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name="media_product_inventory"
     )
 
@@ -299,8 +308,8 @@ class Media(models.Model):
         null=False,
         blank=False,
         verbose_name=_("product image"),
-        upload_to="images/",
-        default="images/default.png",
+        upload_to="images/products/",
+        default="images/products/default.png",
         help_text=_("format : required , default-default.png"),
     )
 
@@ -337,7 +346,7 @@ class Media(models.Model):
 class Stock(models.Model):
     product_inventory = models.OneToOneField(
         ProductInventory,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name="product_inventory"
     )
     last_checked = models.DateTimeField(
@@ -369,28 +378,31 @@ class ProductAttributeValues(models.Model):
     attributevalues = models.ForeignKey(
         "ProductAttributeValue",
         related_name="attributevaluess",
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
     productinventory = models.ForeignKey(
         ProductInventory,
         related_name="productattributevaluess",
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
 
     class Meta:
         unique_together = (("attributevalues", "productinventory"),)
+
+    def __str__(self):
+        return f"{self.productinventory.id} - {self.productinventory.product.name} - {self.attributevalues.product_attribute} : {self.attributevalues.attribute_value} "
 
 
 class ProductTypeAttribute(models.Model):
     product_attribute = models.ForeignKey(
         ProductAttribute,
         related_name="productattribute",
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
     product_type = models.ForeignKey(
         ProductType,
         related_name="producttype",
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
 
     class Meta:

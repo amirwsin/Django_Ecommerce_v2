@@ -1,26 +1,28 @@
 import {Box} from "@mui/material";
-import ProductCard from "./ProductCard";
+import ProductCard, {ProductCardSkeleton} from "./ProductCard";
 
 
-const ProductBox = ({data}) => {
+const ProductBox = ({data,isLoading}) => {
     return (
         <Box className={"product-box"}>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
+            {
+                !isLoading ? data?.results?.map((item) => (<ProductCard key={item.id} data={item}/>)) :
+                    <>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                    <ProductCardSkeleton/>
+                </>
+            }
+
         </Box>
     )
 }

@@ -7,13 +7,13 @@ const HeroSection = () => {
     return (
         <Box component={"div"} className={"hero-section"}>
             <Grid container spacing={2} sx={{padding: 5}} height={"100%"} zIndex={1}>
-                <Grid item xs={12} sm={12} md={12} lg={6} sx={{display: "flex", position: "relative"}}>
+                <Grid item xs={12} sm={12} md={6} lg={6} sx={{display: "flex", position: "relative"}}>
                     <img src={HeroImage2} alt={"hero image "} className={"hero-section-image"}/>
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={6} zIndex={2}>
+                <Grid item xs={12} sm={12} md={6} lg={6} zIndex={2} display={"grid"} >
                     <Box component={"div"}
-                         sx={{textAlign: "center", display: "grid", gap: 5, justifyContent: "center"}}>
-                        <Typography component={"p"} variant={"h5"}
+                         sx={{textAlign: "center", display: "flex",flexDirection:"column",gap:5,alignItems:"center", justifyContent: "center"}}>
+                        <Typography component={"p"} variant={"h4"}
                                     className={"hero-section-title"}>
                             Click What You Like And Buy It Instantly
                         </Typography>
@@ -36,7 +36,7 @@ const HeroSection = () => {
                         gap: 5,
                         justifyContent: "center",
                         alignItems: "center",
-                        marginY: "20%"
+                        marginY: 0
                     }}>
                         <Twitter fontSize={"large"} className={"hero-section-icon"}/>
                         <Instagram fontSize={"large"} className={"hero-section-icon"}/>

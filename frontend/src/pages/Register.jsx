@@ -17,7 +17,7 @@ const Register = () => {
     }
 
     return (
-        <Container maxWidth={"md"}>
+        <Container maxWidth={"md"} sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
             <Box className={"form-wrapper"}>
                 <Typography variant={"h3"} component={"p"} sx={{textAlign: "center", fontWeight: "bold"}}>
                     Register
