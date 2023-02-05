@@ -13,7 +13,7 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
     const {type, payload} = action
-    let result, key, prepData, amount;
+    let result, key, prepData, amount, readyData;
     switch (type) {
         case ADD_TO_CART:
             result = state.products.find((product, index) => {
@@ -24,19 +24,23 @@ export const cartReducer = (state = initialState, action) => {
                 prepData = state.products
                 prepData[key].qty += 1;
                 prepData[key].variant = payload.variant
-                return {
+                readyData = {
                     ...state,
                     products: prepData,
                     qty: state.qty + payload.qty,
                     price: state.price + parseFloat(payload.inventory.sale_price)
                 }
+                localStorage.setItem("shoppingCart", JSON.stringify(readyData))
+                return readyData
             } else {
-                return {
+                readyData = {
                     ...state,
                     products: [...state.products, payload],
                     qty: state.qty + payload.qty,
                     price: state.price + parseFloat(payload.inventory.sale_price)
                 }
+                localStorage.setItem("shoppingCart", JSON.stringify(readyData))
+                return readyData
             }
         case REMOVE_FROM_CART:
             result = state.products.find((product, index) => {
@@ -46,13 +50,15 @@ export const cartReducer = (state = initialState, action) => {
             if (result) {
                 prepData = state.products
                 amount = parseFloat(result.inventory.sale_price) * result.qty
-                prepData.splice(key,1)
-                return {
+                prepData.splice(key, 1)
+                readyData = {
                     ...state,
                     products: prepData,
                     qty: state.qty - result.qty,
                     price: state.price - amount,
                 }
+                localStorage.setItem("shoppingCart", JSON.stringify(readyData))
+                return readyData
             }
             return {...state}
 
@@ -64,12 +70,14 @@ export const cartReducer = (state = initialState, action) => {
             if (result) {
                 prepData = state.products
                 prepData[key].qty += 1;
-                return {
+                readyData = {
                     ...state,
                     products: prepData,
                     qty: state.qty + 1,
                     price: state.price + parseFloat(result.inventory.sale_price),
                 }
+                localStorage.setItem("shoppingCart", JSON.stringify(readyData))
+                return readyData
             } else {
                 return {...state}
             }
@@ -81,22 +89,20 @@ export const cartReducer = (state = initialState, action) => {
             if (result) {
                 prepData = state.products
                 prepData[key].qty -= 1;
-                return {
+                readyData = {
                     ...state,
                     products: prepData,
                     qty: state.qty - 1,
                     price: state.price - parseFloat(result.inventory.sale_price)
                 }
+                localStorage.setItem("shoppingCart", JSON.stringify(readyData))
+                return readyData
             } else {
                 return {...state}
             }
 
-
-        case SAVE_LOCAL:
-            return localStorage.setItem("shoppingCart", JSON.stringify(state))
         case LOAD_LOCAL:
-            let local = localStorage.getItem("shoppingCart")
-            return {local}
+            return payload
         default:
             return state
     }

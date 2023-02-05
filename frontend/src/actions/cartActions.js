@@ -23,5 +23,6 @@ export const decrementProduct = (product) => (dispatch) => {
 
 
 export const loadLocal = () => (dispatch) => {
-    dispatch({type: LOAD_LOCAL, payload: null})
+    let data = localStorage.getItem("shoppingCart")
+    dispatch({type: LOAD_LOCAL, payload: JSON.parse(data)})
 }

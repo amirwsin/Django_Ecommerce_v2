@@ -32,6 +32,7 @@ function App() {
     useEffect(() => {
         token = localStorage.getItem("access_token")
         user = localStorage.getItem("user")
+        dispatch(loadLocal())
         if (token && user) {
             dispatch(loadUser(token))
         }
