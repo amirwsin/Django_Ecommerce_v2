@@ -205,7 +205,7 @@ class ProductInventory(models.Model):
     product_type = models.ForeignKey(
         ProductType, related_name="product_type", on_delete=models.SET_NULL, null=True, blank=True,
     )
-    product = models.ForeignKey(
+    product = models.OneToOneField(
         Product, related_name="product", on_delete=models.CASCADE, null=True, blank=True,
     )
     brand = models.ForeignKey(
@@ -227,7 +227,7 @@ class ProductInventory(models.Model):
     is_default = models.BooleanField(
         null=False,
         blank=False,
-        default=False,
+        default=True,
         verbose_name=_("default selection"),
         help_text=_("format : true=subproduct visible")
     )

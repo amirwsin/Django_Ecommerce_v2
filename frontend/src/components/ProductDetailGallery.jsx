@@ -8,22 +8,14 @@ import "swiper/css/thumbs";
 
 import {FreeMode, Navigation, Thumbs, Autoplay} from "swiper";
 
-const ProductDetailGallery = ({data, isLoading, selection}) => {
+const ProductDetailGallery = ({data}) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-    const getCurrentInventory = (item) => {
-        let result;
-        result = item?.find(item => {
-            return item?.id === selection
-        })
-        return result
-    }
-
-    let current = getCurrentInventory(data?.inventory)
+    let current = data?.inventory
     return (
         <Box sx={{position: "relative", height: "100%"}}>
-            <Grid sx={{direction: "rtl", height: "100%"}} container spacing={2}>
-                <Grid item xs={12} lg={8}>
+            <Grid sx={{direction: "rtl", height: "100%"}} container spacing={1}>
+                <Grid item xs={9} lg={9}>
                     <Swiper
                         style={{
                             "--swiper-navigation-color": "#fff",
@@ -48,7 +40,7 @@ const ProductDetailGallery = ({data, isLoading, selection}) => {
                         </SwiperSlide>}
                     </Swiper>
                 </Grid>
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={3} lg={3}>
                     <Swiper
                         onSwiper={setThumbsSwiper}
                         spaceBetween={10}

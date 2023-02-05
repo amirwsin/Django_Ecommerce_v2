@@ -1,36 +1,22 @@
 import {Box, Button, Chip, Divider, IconButton, Skeleton, Typography} from "@mui/material";
 import ProductAttribute from "./ProductAttribute";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AddShoppingCart, Favorite} from "@mui/icons-material";
+import {useDispatch} from "react-redux";
+import {addToCart} from "../actions/cartActions";
+import MySnackBar from "./MySnackBar";
+import {AlertContext} from "../AlertContext";
 
 const ProductDetail = ({data, setSelection, isLoading}) => {
 
+    const {setAlertState} = useContext(AlertContext)
+
     let productAttribute = []
-    const [currentInventory, setCurrentInventory] = useState(data?.inventory[0])
+    const [currentInventory, setCurrentInventory] = useState(data?.inventory && data?.inventory[0])
     const [variants, setVariants] = useState({})
     let defaultInventory;
+    const dispatch = useDispatch()
 
-
-    const filterDefaultInventory = (data) => {
-        let result;
-        if (data) {
-            result = data.find(item => {
-                return item.is_default === true
-            })
-        }
-        return result
-    }
-    const filterUnSelectedInventory = (data) => {
-        let result = [];
-        if (data) {
-            data.find(item => {
-                if (item?.id !== currentInventory?.id) {
-                    result.push(item)
-                }
-            })
-        }
-        return result
-    }
 
     const getProductTypeAttribute = (data) => {
         data?.product_type?.product_type_attribute.forEach(attribute => {
@@ -70,8 +56,39 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
         setVariants({...variants, [key]: value})
     }
 
+    const checkVariants = () => {
+        let result = true
+        if (variants && Object.keys(variants).length !== 0) {
+            productAttribute.forEach(attribute => {
+                if (variants[attribute] === null || variants[attribute] === undefined) {
+                    result = false
+                }
+            })
+        } else {
+            result = false
+        }
+        return result
+    }
+
+    const handleAddToCart = () => {
+        let preData = {}
+        let variantCheckResult = checkVariants()
+        if (variantCheckResult) {
+            preData = {"product": data, "variant": variants, "inventory": currentInventory, "qty": 1}
+            delete preData.product.inventory
+            // setAlertState({
+            //     "open": true,
+            //     "msg": `Product Added To Your Shopping Cart`,
+            //     "color": "success"
+            // })
+            dispatch(addToCart(preData))
+        } else {
+            setAlertState({"open": true, "msg": "Please Select Variants", "color": "error"})
+        }
+    }
+
     useEffect(() => {
-        defaultInventory = filterDefaultInventory(data?.inventory)
+        defaultInventory = data?.inventory
         handleInventorySelection(defaultInventory)
     }, [data])
 
@@ -79,7 +96,6 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
     getProductTypeAttribute(currentInventory)
     const productAttributeList = getProductAttributeValues(currentInventory)
     const finalAttributeValues = finalProductAttribute()
-    filterUnSelectedInventory(data?.inventory)
 
 
     return (
@@ -97,7 +113,7 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
                 <Typography variant={"h5"} component={"h1"} sx={{fontWeight: 500,}}>
                     {data?.name ? data?.name : <Skeleton variant={"rectangular"} animation={"wave"} width={"20rem"}/>}
                 </Typography>
-                <Box sx={{display:"grid",alignItems:"center",gap:2}}>
+                <Box sx={{display: "grid", alignItems: "center", gap: 2}}>
                     {
                         currentInventory?.brand?.name ?
                             <Chip variant={"filled"} size={"medium"} color={"warning"}
@@ -105,7 +121,8 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
                             <Skeleton variant={"rectangular"} animation={"wave"} width={"5rem"}/>
                     }
 
-                    {currentInventory?.sale_price ? <Typography variant={"h5"} component={"p"} sx={{fontWeight:600}}>${currentInventory?.sale_price}</Typography> :
+                    {currentInventory?.sale_price ? <Typography variant={"h5"} component={"p"}
+                                                                sx={{fontWeight: 600}}>${currentInventory?.sale_price}</Typography> :
                         <Skeleton variant={"rectangular"} animation={"wave"}/>}
                 </Box>
             </Box>
@@ -138,8 +155,9 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
                 }
             </Box>
             <Divider variant={"fullWidth"}/>
-            <Button color={"primary"} variant={"contained"} endIcon={<AddShoppingCart/>}>Add To Cart</Button>
-            <Button color={"error"} variant={"contained"} endIcon={<Favorite/>}>Add To Favorite</Button>
+            <Button color={"primary"} variant={"contained"} onClick={handleAddToCart} endIcon={<AddShoppingCart/>}>Add
+                To Cart</Button>
+            <Button color={"error"} variant={"outlined"} endIcon={<Favorite/>}>Add To Favorite</Button>
         </Box>
     )
 }

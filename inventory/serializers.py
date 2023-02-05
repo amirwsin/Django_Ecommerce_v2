@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Product, Category, Brand, ProductInventory, ProductType, ProductAttributeValue, ProductAttribute, \
-    Media
+    Media, Stock
 
 
 class BasicCategoriesSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class BasicProductProductAttributeSerializer(serializers.ModelSerializer):
 class BasicMediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
-        exclude = ["product_inventory","create_at","update_at"]
+        exclude = ["product_inventory", "create_at", "update_at"]
 
 
 class BasicProductAttributeValueSerializer(serializers.ModelSerializer):
@@ -40,20 +40,31 @@ class BasicProductAttributeValueSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class BasicStockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stock
+        exclude = ["units_sold","last_checked","product_inventory"]
+
+
 class BasicProductInventorySerializer(serializers.ModelSerializer):
     brand = BasicBrandsSerializer()
     product_type = BasicProductTypeSerializer()
     media = serializers.SerializerMethodField()
+    stock = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductInventory
-        exclude = ["retail_price", "store_price","create_at","update_at","product","weight"]
+        exclude = ["retail_price", "store_price", "create_at", "update_at", "product", "weight"]
         depth = 2
 
     def get_media(self, obj):
         media = Media.objects.filter(product_inventory=obj)
 
         return BasicMediaSerializer(media, many=True, context=self.context).data
+
+    def get_stock(self, obj):
+        stock = Stock.objects.get(product_inventory=obj)
+        return BasicStockSerializer(stock, many=False, context=self.context).data
 
 
 class BasicProductSerializer(serializers.ModelSerializer):
@@ -64,5 +75,5 @@ class BasicProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_inventory(self, obj):
-        inventory = ProductInventory.objects.filter(product=obj)
-        return BasicProductInventorySerializer(inventory, many=True, context=self.context).data
+        inventory = ProductInventory.objects.get(product=obj)
+        return BasicProductInventorySerializer(inventory, many=False, context=self.context).data

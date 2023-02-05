@@ -49,18 +49,9 @@ const ProductCard = (data) => {
         return result
     }
 
-    const filterInventory = (item) => {
-        let result;
-        if (item) {
-            result = item.find(item => {
-                return item.is_default === true
-            })
-        }
-        return result?.id ? result : null
-    }
 
 
-    const inventory = filterInventory(data.data.inventory)
+    const inventory = data.data.inventory
     const media = filterMedia(inventory.media)
 
 
@@ -87,19 +78,6 @@ const ProductCard = (data) => {
                     {data.data.description.length > 30 ? data.data.description.substring(0, 30) + " . . . " : data.data.description}
                 </Typography>
             </CardContent>
-            <CardActions sx={{justifyContent: "space-between"}}>
-                <Typography component={"p"} variant={"body1"} fontWeight={700}>
-                    ${data.data.inventory && inventory?.sale_price}
-                </Typography>
-                <Box>
-                    <IconButton>
-                        <AddShoppingCart/>
-                    </IconButton>
-                    <IconButton>
-                        <Favorite/>
-                    </IconButton>
-                </Box>
-            </CardActions>
         </Card>
     )
 }

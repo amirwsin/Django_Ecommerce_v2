@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import {Link} from "react-router-dom";
 import {MoreVert, ShoppingCartOutlined} from "@mui/icons-material";
 import {
-    Avatar,
+    Avatar, Badge,
     Collapse,
     Container,
     Drawer,
@@ -27,6 +27,7 @@ const Navbar = () => {
     const [categoryMenuList, setCategoryMenuList] = useState(false)
     const [sideBar, setSideBar] = useState(false)
     const {user, isAuthenticated} = useSelector(state => state.authReducer)
+    const {qty} = useSelector(state => state.cartReducer)
 
     const handleSideBar = () => {
         setSideBar(prevState => !prevState)
@@ -67,9 +68,10 @@ const Navbar = () => {
                         </Link>
                     </Box>
                     <Box sx={{display: "flex", flexGrow: 0, gap: 2}}>
-                        <IconButton color={"background.main"} aria-label={"shopping cart"}>
-                            <ShoppingCartOutlined/>
-                            <span className={"basket-qty"} id={"basket-qty"}>1</span>
+                        <IconButton component={Link} to={"/cart"} color={"background.main"} aria-label={"shopping cart"}>
+                            <Badge  badgeContent={qty} color="secondary">
+                                <ShoppingCartOutlined/>
+                            </Badge>
                         </IconButton>
                         {isAuthenticated && user ?
                             <>

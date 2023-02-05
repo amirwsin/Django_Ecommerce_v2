@@ -1,6 +1,7 @@
 import {Box, Button, Grid, Typography} from "@mui/material";
 import {Facebook, Instagram, LinkedIn, Pinterest, Twitter} from "@mui/icons-material";
 import HeroImage2 from "./../assets/hero-image2.png"
+import {Link} from "react-router-dom";
 
 
 const HeroSection = () => {
@@ -25,7 +26,7 @@ const HeroSection = () => {
                             cupidatat
                             non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </Typography>
-                        <Button variant={"contained"} color="black"
+                        <Button component={Link} to={"/products"} variant={"contained"} color="black"
                                 sx={{color: "white", width: "25%", justifySelf: "center"}}>
                             Products
                         </Button>
