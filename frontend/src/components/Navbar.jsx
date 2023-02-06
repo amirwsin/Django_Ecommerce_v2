@@ -19,7 +19,7 @@ import CategoryMenuList from "./CategoryMenuList";
 import SideBarMenu from "./SideBarMenu";
 import {useSelector} from "react-redux";
 import {useQuery} from "@tanstack/react-query";
-import {BasicCategoriesApi} from "../api/CategoriesApi";
+import {BasicCategoriesApi} from "../features/api/CategoriesApi";
 
 
 const Navbar = () => {
@@ -75,8 +75,8 @@ const Navbar = () => {
                         </IconButton>
                         {isAuthenticated && user ?
                             <>
-                                <Tooltip title="Profile">
-                                    <IconButton component={Link} to={"/profile"} sx={{p: 0}}>
+                                <Tooltip title="Dashboard">
+                                    <IconButton component={Link} to={"/user/dashboard"} sx={{p: 0}}>
                                         <Avatar>A</Avatar>
                                     </IconButton>
                                 </Tooltip>

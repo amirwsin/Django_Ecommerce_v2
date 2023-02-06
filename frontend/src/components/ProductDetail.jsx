@@ -3,7 +3,7 @@ import ProductAttribute from "./ProductAttribute";
 import {useContext, useEffect, useState} from "react";
 import {AddShoppingCart, Favorite} from "@mui/icons-material";
 import {useDispatch} from "react-redux";
-import {addToCart} from "../actions/cartActions";
+import {addToCart} from "../features/actions/cartActions";
 import MySnackBar from "./MySnackBar";
 import {AlertContext} from "../AlertContext";
 

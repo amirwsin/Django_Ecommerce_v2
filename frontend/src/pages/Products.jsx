@@ -2,7 +2,7 @@ import {Container, Grid} from "@mui/material";
 import ProductsFilterBox from "../components/ProductsFilterBox";
 import ProductBox from "../components/ProductBox";
 import {useQuery} from "@tanstack/react-query";
-import {BasicProductApi, ProductByCategoryApi} from "../api/ProductsApi";
+import {BasicProductApi, ProductByCategoryApi} from "../features/api/ProductsApi";
 import {useParams, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 

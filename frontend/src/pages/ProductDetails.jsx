@@ -2,7 +2,7 @@ import {Container, Grid} from "@mui/material";
 import ProductDetail from "../components/ProductDetail";
 import {useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {ProductBySlug} from "../api/ProductsApi";
+import {ProductBySlug} from "../features/api/ProductsApi";
 import {useState} from "react";
 import ProductDetailGallery from "../components/ProductDetailGallery";
 

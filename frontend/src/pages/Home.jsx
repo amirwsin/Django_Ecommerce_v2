@@ -2,7 +2,7 @@ import HeroSection from "../components/HeroSection";
 import {Box, Container} from "@mui/material";
 import ProductBox from "../components/ProductBox";
 import {useQuery} from "@tanstack/react-query";
-import {BasicProductApi} from "../api/ProductsApi";
+import {BasicProductApi} from "../features/api/ProductsApi";
 
 
 const Home = () => {

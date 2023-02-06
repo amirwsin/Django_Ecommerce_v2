@@ -1,13 +1,14 @@
 import {useSelector} from "react-redux";
 import {Container} from "@mui/material";
 
-const Profile = () => {
+const Dashboard = () => {
     const {user} = useSelector(state => state.authReducer)
+    const readyData = JSON.parse(user)
     return (
         <Container>
-            <p>{user}</p>
+            profile
         </Container>
     )
 }
 
-export default Profile
+export default Dashboard

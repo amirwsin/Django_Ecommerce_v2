@@ -1,7 +1,7 @@
 import {Box, Button, ButtonGroup, Chip, Grid, IconButton, Skeleton, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import {decrementProduct, incrementProduct, removeFromCart} from "../actions/cartActions";
+import {decrementProduct, incrementProduct, removeFromCart} from "../features/actions/cartActions";
 import {Delete} from "@mui/icons-material";
 
 const CartProducts = () => {
@@ -50,7 +50,9 @@ const CartProductsItem = ({data}) => {
 
 
     const handleIncrement = () => {
-        dispatch(incrementProduct(data))
+        if (data?.inventory?.stock?.units >= data.qty) {
+            dispatch(incrementProduct(data))
+        }
     }
     const handleDecrement = () => {
         if (data.qty >= 1) {
@@ -107,7 +109,8 @@ const CartProductsItem = ({data}) => {
                     </Box>
                     <Box sx={{display: "flex", justifyContent: "space-between"}}>
                         <ButtonGroup variant="contained" aria-label="cart action buttons">
-                            <Button onClick={handleIncrement}>+</Button>
+                            <Button onClick={handleIncrement}
+                                    disabled={data?.inventory?.stock?.units === data.qty ? true : false}>+</Button>
                             <Button variant={"outlined"}>{data?.qty}</Button>
                             <Button onClick={handleDecrement} disabled={data?.qty > 1 ? false : true}>-</Button>
                         </ButtonGroup>
