@@ -20,6 +20,7 @@ import {loadLocal} from "./features/actions/cartActions";
 import ShoppingCart from "./pages/ShoppingCart";
 import RestrictPage from "./RestrictPage";
 import PanelLayout from "./components/PanelLayout";
+import Account from "./pages/panel/Account";
 
 
 let token, user;
@@ -60,7 +61,12 @@ function App() {
                             <RestrictPage path={"/"} type={"isAnonymous"}><Register/></RestrictPage>
                         }/>
                         <Route path={"/user/dashboard"} element={
-                            <RestrictPage path={"/login"} type={"isAuthenticated"}><PanelLayout><Dashboard/></PanelLayout></RestrictPage>
+                            <RestrictPage path={"/login"}
+                                          type={"isAuthenticated"}><PanelLayout><Dashboard/></PanelLayout></RestrictPage>
+                        }/>
+                        <Route path={"/user/dashboard/account"} element={
+                            <RestrictPage path={"/login"}
+                                          type={"isAuthenticated"}><PanelLayout><Account/></PanelLayout></RestrictPage>
                         }/>
                         <Route path={"/products/:category?/"} element={
                             <Products/>

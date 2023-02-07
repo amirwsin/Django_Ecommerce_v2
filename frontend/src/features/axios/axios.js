@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const baseUrl = 'http://127.0.0.1:8000';
+const client_id = "fPvVX45n5HUW7UIkmXXk256Qkda2JFdVNVXP8heS"
+const client_secret = "vXMqpYk3svZ1g5Z98a2R9CblH3oqVBV5XGpFrB5Gl6PBfQ95ubC5ZW1hA13ThuKoTG5w6rzeVcGNTGLb2I8WNz9hO96q7zffyR7w8rAQsjQnoVK0vGcG7dfgP2bAxskt"
+
 
 const axiosInstance = axios.create({
     baseURL: baseUrl,
@@ -33,36 +36,35 @@ axiosInstance.interceptors.response.use((response) => {
         //     window.location.replace('/verify/user')
         //     return Promise.reject(error)
         // }
-        if (error.response.data.code === 'token_not_valid' && error.response.status === 401 && error.response.statusText === 'Unauthorized') {
-            const refreshToken = localStorage.getItem('refresh_token');
+        if (error.response.data.detail === 'Invalid token header. No credentials provided.' && error.response.status === 401 && error.response.statusText === 'Unauthorized') {
+            const refreshToken = JSON.stringify(localStorage.getItem('refresh_token'));
             if (refreshToken && refreshToken !== 'undefined' && refreshToken !== null) {
-                const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
-                const now = Math.ceil(Date.now() / 1000);
-                if (tokenParts.exp > now) {
-                    return axiosInstance.post('token/refresh/', {refresh: refreshToken}).then((res) => {
-                        console.log(res.data)
-                        localStorage.setItem('access_token', res.data.access)
-                        localStorage.setItem('refresh_token', res.data.refresh)
-                        axiosInstance.defaults.headers['Authorization'] =
-                            'JWT ' + res.data.access;
-                        originalRequest.headers['Authorization'] =
-                            'JWT ' + res.data.access;
-                        return axiosInstance(originalRequest);
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                } else {
-                    console.log('Refresh token is expired', tokenParts.exp, now);
-                    return window.location.href = '/verify/user';
-                }
+                return axiosInstance.post('/auth/token/', {
+                    refresh_token: refreshToken,
+                    grant_type: "refresh_token",
+                    client_id: client_id,
+                    client_secret: client_secret
+                }).then((res) => {
+                    console.log(res.data)
+                    localStorage.setItem('access_token', res.data.access_token)
+                    localStorage.setItem('refresh_token', res.data.refresh_token)
+                    axiosInstance.defaults.headers['Authorization'] =
+                        'JWT ' + rres.data.access_token;
+                    originalRequest.headers['Authorization'] =
+                        'JWT ' + res.data.access_token;
+                    return axiosInstance(originalRequest);
+                }).catch((err) => {
+                    console.log(err)
+                });
             } else {
                 console.log('Refresh token not available');
                 localStorage.removeItem('refresh_token')
                 localStorage.removeItem('access_token')
-                localStorage.removeItem('token')
-                return window.location.href = '/verify/user';
+                localStorage.removeItem('user')
+                return window.location.href = '/login';
             }
         }
+        console.log(error)
     })
 
 

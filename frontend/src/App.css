@@ -379,8 +379,16 @@ body {
     padding-bottom: 1rem;
     border-bottom: 1px solid grey;
 }
-.checkout-list-item:last-child{
+
+.checkout-list-item:last-child {
     border-bottom: none;
+}
+
+.panel-box {
+    background-color: var(--background-main);
+    box-shadow: 2px 2px 8px grey;
+    padding: 2rem;
+    border-radius: 7px;
 }
 
 @media only screen and (max-width: 1200px) {

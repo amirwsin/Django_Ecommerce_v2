@@ -21,9 +21,9 @@ from django.conf import settings
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  # path('demo/',include("demo.urls",namespace="demo")),
                   path('api/user/', include("account.urls", namespace="userApi")),
                   path('api/inventory/', include("inventory.urls", namespace="inventoryApi")),
+                  path('api/checkout/', include("checkout.urls", namespace="checkoutApi")),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   re_path(r'^auth/', include('drf_social_oauth2.urls', namespace='drf')),
                   path("api/schema/", SpectacularAPIView.as_view(), name="schema"),

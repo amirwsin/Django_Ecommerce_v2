@@ -12,6 +12,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AccountBox, Dashboard, Logout, ShoppingBasket, Signpost} from "@mui/icons-material";
 import {logout} from "../features/actions/authActions";
+import {Link} from "react-router-dom";
 
 const PanelLayout = ({children}) => {
     const {user} = useSelector(state => state.authReducer)
@@ -23,7 +24,7 @@ const PanelLayout = ({children}) => {
 
     return (
         <Container maxWidth={"xl"} sx={{marginY: 5}}>
-            <Grid container spacing={2}>
+            <Grid container spacing={10}>
                 <Grid item xs={12} sm={12} md={4} lg={3} display={"grid"} gap={3}>
                     <Box sx={Style} padding={3}>
                         <Typography variant={"h5"} component={"p"} align={"center"} fontWeight={600}>
@@ -35,13 +36,13 @@ const PanelLayout = ({children}) => {
                     </Box>
                     <Box sx={Style}>
                         <List>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to={"/user/dashboard"}>
                                 <ListItemIcon>
                                     <Dashboard/>
                                 </ListItemIcon>
                                 <ListItemText primary={"Dashboard"}/>
                             </ListItemButton>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to={"/user/dashboard/account"}>
                                 <ListItemIcon>
                                     <AccountBox/>
                                 </ListItemIcon>
@@ -76,6 +77,12 @@ const PanelLayout = ({children}) => {
     )
 }
 
-export const Style = {boxShadow: "2px 2px 8px grey", borderRadius: "7px", display: "grid", gap: 2,backgroundColor:"background.main"}
+export const Style = {
+    boxShadow: "0 2px 4px grey",
+    borderRadius: "7px",
+    display: "grid",
+    gap: 2,
+    backgroundColor: "background.main"
+}
 
 export default PanelLayout

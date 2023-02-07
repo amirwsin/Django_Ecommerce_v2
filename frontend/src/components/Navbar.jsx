@@ -68,16 +68,19 @@ const Navbar = () => {
                         </Link>
                     </Box>
                     <Box sx={{display: "flex", flexGrow: 0, gap: 2}}>
-                        <IconButton component={Link} to={"/cart"} color={"background.main"} aria-label={"shopping cart"}>
-                            <Badge  badgeContent={qty} color="secondary">
-                                <ShoppingCartOutlined/>
-                            </Badge>
-                        </IconButton>
+                        <Tooltip arrow title="Shopping Cart">
+                            <IconButton component={Link} to={"/cart"} color={"background.main"}
+                                        aria-label={"shopping cart"}>
+                                <Badge badgeContent={qty} color="secondary">
+                                    <ShoppingCartOutlined/>
+                                </Badge>
+                            </IconButton>
+                        </Tooltip>
                         {isAuthenticated && user ?
                             <>
-                                <Tooltip title="Dashboard">
+                                <Tooltip arrow title="Dashboard">
                                     <IconButton component={Link} to={"/user/dashboard"} sx={{p: 0}}>
-                                        <Avatar>A</Avatar>
+                                        <Avatar />
                                     </IconButton>
                                 </Tooltip>
                             </> :
