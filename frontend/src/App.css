@@ -27,6 +27,17 @@ body {
 #root {
     display: grid;
 }
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    border-radius: 5px;
+    background-color: var(--background-main);
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: var(--background-dark);
+}
 
 .logo-text {
     font-size: 32px !important;

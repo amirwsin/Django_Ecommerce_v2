@@ -1,5 +1,6 @@
 import './App.css'
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import './Admin.css'
+import {BrowserRouter, Outlet, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home"
 import Navbar from "./components/Navbar";
 import {ThemeProvider} from "@mui/material";
@@ -22,6 +23,9 @@ import RestrictPage from "./RestrictPage";
 import PanelLayout from "./components/PanelLayout";
 import Account from "./pages/panel/Account";
 import Address from "./pages/panel/Address";
+import AdminDashboard from "./pages/dashboard/AdminDashboard";
+import SideBar from "./components/dashboard/SideBar";
+import Content from "./components/dashboard/Content";
 
 
 let token, user;
@@ -50,52 +54,79 @@ function App() {
         <ThemeProvider theme={theme}>
             <AlertContext.Provider value={providerValue}>
                 <BrowserRouter>
-                    <Navbar/>
                     <Routes>
-                        <Route index path={"/"} element={
-                            <Home/>
-                        }/>
-                        <Route path={"/login"} element={
-                            <RestrictPage path={"/"} type={"isAnonymous"}>
-                                <Login/>
-                            </RestrictPage>
-                        }/>
-                        <Route path={"/register"} element={
-                            <RestrictPage path={"/"} type={"isAnonymous"}>
-                                <Register/>
-                            </RestrictPage>
-                        }/>
-                        <Route path={"/user/dashboard"} element={
-                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
-                                <PanelLayout><Dashboard/></PanelLayout>
-                            </RestrictPage>
-                        }/>
-                        <Route path={"/user/dashboard/account"} element={
-                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
-                                <PanelLayout><Account/></PanelLayout>
-                            </RestrictPage>
-                        }/>
-                        <Route path={"/user/dashboard/address"} element={
-                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
-                                <PanelLayout><Address/></PanelLayout>
-                            </RestrictPage>
-                        }/>
-                        <Route path={"/products/:category?/"} element={
-                            <Products/>
-                        }/>
-                        <Route path={"/product/:slug/"} element={
-                            <ProductDetails/>}/>
-                        <Route path={"/cart"} element={<ShoppingCart/>
-                        }/>
-                        <Route path={"*"} element={<h1>not found</h1>}/>
+                        <Route path={"/"} element={<MainLayout/>}>
+                            <Route index path={"/"} element={
+                                <Home/>
+                            }/>
+                            <Route path={"/login"} element={
+                                <RestrictPage path={"/"} type={"isAnonymous"}>
+                                    <Login/>
+                                </RestrictPage>
+                            }/>
+                            <Route path={"/register"} element={
+                                <RestrictPage path={"/"} type={"isAnonymous"}>
+                                    <Register/>
+                                </RestrictPage>
+                            }/>
+                            <Route path={"/user/dashboard"} element={
+                                <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                    <PanelLayout><Dashboard/></PanelLayout>
+                                </RestrictPage>
+                            }/>
+                            <Route path={"/user/dashboard/account"} element={
+                                <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                    <PanelLayout><Account/></PanelLayout>
+                                </RestrictPage>
+                            }/>
+                            <Route path={"/user/dashboard/address"} element={
+                                <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                    <PanelLayout><Address/></PanelLayout>
+                                </RestrictPage>
+                            }/>
+                            <Route path={"/products/:category?/"} element={
+                                <Products/>
+                            }/>
+                            <Route path={"/product/:slug/"} element={
+                                <ProductDetails/>}/>
+                            <Route path={"/cart"} element={<ShoppingCart/>
+                            }/>
+                            <Route path={"*"} element={<h1>not found</h1>}/>
+                        </Route>
+                        <Route path={"/"} element={<AdminLayout/>}>
+                            <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
+                        </Route>
                     </Routes>
-                    <GoTopButton/>
-                    <MySnackBar/>
-                    <Footer/>
                 </BrowserRouter>
             </AlertContext.Provider>
         </ThemeProvider>
     )
 }
+
+function AdminLayout() {
+    return (
+        <>
+            <div id={"root-admin"}>
+                <SideBar/>
+                <Content>
+                    <Outlet/>
+                </Content>
+            </div>
+        </>
+    );
+}
+
+function MainLayout() {
+    return (
+        <>
+            <Navbar/>
+            <Outlet/>
+            <GoTopButton/>
+            <MySnackBar/>
+            <Footer/>
+        </>
+    );
+}
+
 
 export default App
