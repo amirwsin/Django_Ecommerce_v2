@@ -21,6 +21,7 @@ import ShoppingCart from "./pages/ShoppingCart";
 import RestrictPage from "./RestrictPage";
 import PanelLayout from "./components/PanelLayout";
 import Account from "./pages/panel/Account";
+import Address from "./pages/panel/Address";
 
 
 let token, user;
@@ -55,18 +56,29 @@ function App() {
                             <Home/>
                         }/>
                         <Route path={"/login"} element={
-                            <RestrictPage path={"/"} type={"isAnonymous"}><Login/></RestrictPage>
+                            <RestrictPage path={"/"} type={"isAnonymous"}>
+                                <Login/>
+                            </RestrictPage>
                         }/>
                         <Route path={"/register"} element={
-                            <RestrictPage path={"/"} type={"isAnonymous"}><Register/></RestrictPage>
+                            <RestrictPage path={"/"} type={"isAnonymous"}>
+                                <Register/>
+                            </RestrictPage>
                         }/>
                         <Route path={"/user/dashboard"} element={
-                            <RestrictPage path={"/login"}
-                                          type={"isAuthenticated"}><PanelLayout><Dashboard/></PanelLayout></RestrictPage>
+                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                <PanelLayout><Dashboard/></PanelLayout>
+                            </RestrictPage>
                         }/>
                         <Route path={"/user/dashboard/account"} element={
-                            <RestrictPage path={"/login"}
-                                          type={"isAuthenticated"}><PanelLayout><Account/></PanelLayout></RestrictPage>
+                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                <PanelLayout><Account/></PanelLayout>
+                            </RestrictPage>
+                        }/>
+                        <Route path={"/user/dashboard/address"} element={
+                            <RestrictPage path={"/login"} type={"isAuthenticated"}>
+                                <PanelLayout><Address/></PanelLayout>
+                            </RestrictPage>
                         }/>
                         <Route path={"/products/:category?/"} element={
                             <Products/>

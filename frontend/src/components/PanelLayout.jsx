@@ -3,10 +3,8 @@ import {
     Container,
     Grid,
     List,
-    ListItem,
     ListItemButton, ListItemIcon,
     ListItemText,
-    radioClasses,
     Typography
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
@@ -24,8 +22,8 @@ const PanelLayout = ({children}) => {
 
     return (
         <Container maxWidth={"xl"} sx={{marginY: 5}}>
-            <Grid container spacing={10}>
-                <Grid item xs={12} sm={12} md={4} lg={3} display={"grid"} gap={3}>
+            <Grid container spacing={5}>
+                <Grid item xs={12} sm={12} md={4} lg={3} display={"flex"} flexDirection={"column"} gap={2}>
                     <Box sx={Style} padding={3}>
                         <Typography variant={"h5"} component={"p"} align={"center"} fontWeight={600}>
                             {readyData.username}
@@ -54,7 +52,7 @@ const PanelLayout = ({children}) => {
                                 </ListItemIcon>
                                 <ListItemText primary={"Orders"}/>
                             </ListItemButton>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to={"/user/dashboard/address"}>
                                 <ListItemIcon>
                                     <Signpost/>
                                 </ListItemIcon>
@@ -78,11 +76,12 @@ const PanelLayout = ({children}) => {
 }
 
 export const Style = {
+    position: "relative",
+    display: "grid",
     boxShadow: "0 2px 4px grey",
     borderRadius: "7px",
-    display: "grid",
     gap: 2,
-    backgroundColor: "background.main"
+    backgroundColor: "background.main",
 }
 
 export default PanelLayout

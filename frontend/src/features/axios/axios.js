@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosBasicInstance from "./axiosBasic";
 
 const baseUrl = 'http://127.0.0.1:8000';
 const client_id = "fPvVX45n5HUW7UIkmXXk256Qkda2JFdVNVXP8heS"
@@ -37,14 +38,15 @@ axiosInstance.interceptors.response.use((response) => {
         //     return Promise.reject(error)
         // }
         if (error.response.data.detail === 'Invalid token header. No credentials provided.' && error.response.status === 401 && error.response.statusText === 'Unauthorized') {
-            const refreshToken = JSON.stringify(localStorage.getItem('refresh_token'));
+            const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken && refreshToken !== 'undefined' && refreshToken !== null) {
-                return axiosInstance.post('/auth/token/', {
+                const prepData = {
                     refresh_token: refreshToken,
                     grant_type: "refresh_token",
                     client_id: client_id,
                     client_secret: client_secret
-                }).then((res) => {
+                }
+                return axiosBasicInstance.post('/auth/token/', prepData).then((res) => {
                     console.log(res.data)
                     localStorage.setItem('access_token', res.data.access_token)
                     localStorage.setItem('refresh_token', res.data.refresh_token)

@@ -60,9 +60,9 @@ class Address(models.Model):
     apartment = models.TextField()
     city = models.CharField(max_length=255, blank=False, null=False, verbose_name=_(" city & state name"),
                             help_text=_("format : max-255"))
-    zip_code = models.CharField(max_length=15, blank=False, null=False, verbose_name=_("zip code")),
-    contact_phone = models.CharField(max_length=15, blank=False, null=False,
-                                     verbose_name=_("contact person mobile number")),
+    zip_code = models.CharField(max_length=15, blank=True, null=True, verbose_name=_("zip code"))
+    contact_phone = models.CharField(max_length=15, blank=True, null=True,
+                                     verbose_name=_("contact person mobile number"))
     is_default = models.BooleanField(default=False, verbose_name=_("default address"),
                                      help_text=_("format : true = default address for orders"))
 
@@ -79,4 +79,4 @@ class Address(models.Model):
     )
 
     def __str__(self):
-        return self.user
+        return self.user.username
