@@ -1,42 +1,73 @@
-import {useState} from "react";
-import {Avatar, Box, Button, Divider, Drawer, IconButton, Typography} from "@mui/material";
-import {Group, MoreVert} from "@mui/icons-material";
-import {useSelector} from "react-redux";
+import {Box, Divider, Tooltip, Typography} from "@mui/material";
+import {Category, Dashboard, Group, Inventory} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
 const SideBar = () => {
-    const [open, setOpen] = useState(false)
-    const handleOpen = () => {
-        setOpen(prevState => !prevState)
+    const handleClick = (e) => {
+        const lists = document.getElementsByClassName("sidebar-wrapper-inner-list-item")
+        for (let i = 0; i < lists.length; i++) {
+            lists[i].classList.remove("active")
+        }
+        e.currentTarget.classList.toggle("active")
     }
-    const {user} = useSelector(state => state.authReducer)
-    const readyUser = JSON.parse(user)
     return (
-        <Box className={open ? "sidebar active" : "sidebar"}>
+        <Box id={"sidebar"} className={"sidebar"} sx={{backgroundColor: "background.main"}}>
             <Box className={"sidebar-wrapper"}>
-                <IconButton onClick={handleOpen} sx={{width: "50px"}}>
-                    <MoreVert fontSize={"large"}/>
-                </IconButton>
-                <Divider variant={"fullWidth"}/>
                 <Box className={"sidebar-wrapper-inner"}>
-                    <Avatar>
-                        {readyUser?.username.charAt(0)}
-                    </Avatar>
                     <ul className={"sidebar-wrapper-inner-list"}>
-                        <li className={open ? "sidebar-wrapper-inner-list-item open" : "sidebar-wrapper-inner-list-item"}>
-                            <Group/>
-                            <p>test</p>
+                        <Link to={"/admin/dashboard"} className={"sidebar-link"}>
+                            <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                                <Tooltip title={"Dashboard"} arrow>
+                                    <Dashboard/>
+                                </Tooltip>
+                                <Typography variant={"h6"}>
+                                    Dashboard
+                                </Typography>
+
+                            </li>
+                        </Link>
+                        <Link to={"/admin/users"} className={"sidebar-link"}>
+                            <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                                <Tooltip title={"users"} arrow>
+                                    <Group/>
+                                </Tooltip>
+                                <Typography variant={"h6"}>
+                                    Users
+                                </Typography>
+                            </li>
+                        </Link>
+                        <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                            <Tooltip title={"Inventory"} arrow>
+                                <Inventory/>
+                            </Tooltip>
+                            <Typography variant={"h6"}>
+                                Inventory
+                            </Typography>
                         </li>
-                        <li className={open ? "sidebar-wrapper-inner-list-item open" : "sidebar-wrapper-inner-list-item"}>
-                            <Group/>
-                            <p>test</p>
+                        <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                            <Tooltip title={"Categories"} arrow>
+                                <Category/>
+                            </Tooltip>
+                            <Typography variant={"h6"}>
+                                Categories
+                            </Typography>
                         </li>
-                        <li className={open ? "sidebar-wrapper-inner-list-item open" : "sidebar-wrapper-inner-list-item"}>
-                            <Group/>
-                            <p>test</p>
+                        <Divider variant={"fullWidth"}/>
+                        <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                            <Tooltip title={"Categories"} arrow>
+                                <Category/>
+                            </Tooltip>
+                            <Typography variant={"h6"}>
+                                Categories
+                            </Typography>
                         </li>
-                        <li className={open ? "sidebar-wrapper-inner-list-item open" : "sidebar-wrapper-inner-list-item"}>
-                            <Group/>
-                            <p>test</p>
+                        <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                            <Tooltip title={"Categories"} arrow>
+                                <Category/>
+                            </Tooltip>
+                            <Typography variant={"h6"}>
+                                Categories
+                            </Typography>
                         </li>
                     </ul>
                 </Box>

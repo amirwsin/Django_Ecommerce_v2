@@ -142,7 +142,7 @@ export const Form = ({user, data}) => {
                 </Grid>
                 <Grid item xs={12}>
                     <Button variant={"contained"} color={"black"}
-                            sx={{color: "white", marginY: 1}}
+                            sx={{color: "background.main", marginY: 1}}
                             fullWidth={true}
                             type={"submit"}>
                         SAVE

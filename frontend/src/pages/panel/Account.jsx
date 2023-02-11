@@ -70,7 +70,7 @@ const Account = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Button variant={"contained"} color={"black"}
-                                sx={{color: "white", marginY: 1, visibility: editable ? "visible" : "hidden"}}
+                                sx={{color: "background.main", marginY: 1, visibility: editable ? "visible" : "hidden"}}
                                 fullWidth={true}
                                 type={"submit"}>
                             SAVE
