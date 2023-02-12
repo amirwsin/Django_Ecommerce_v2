@@ -100,9 +100,38 @@ export const cartReducer = (state = initialState, action) => {
             } else {
                 return {...state}
             }
-
         case LOAD_LOCAL:
             return payload
+        case LOAD_CART:
+            let newQty = 0;
+            let newPrice = 0;
+            let product, inventory
+            let variant = {}
+            let prepProduct;
+            let products = []
+            let data = payload
+            data.items.forEach(item => {
+                newQty += item.qty
+                inventory = item.product.inventory
+                delete item.product["inventory"]
+                product = item.product
+                item.variants.forEach((varItem) => {
+                    result = inventory.attribute_values.filter(attribute => {
+                        return attribute.id === varItem
+                    })
+                    let attributeName = result[0].product_attribute?.name
+                    variant[attributeName] =result[0].attribute_value
+                })
+                newPrice += parseFloat(inventory.sale_price) * item.qty
+                prepProduct = {"product": product, "inventory": inventory, "qty": item.qty, "variant": variant}
+                products = [...products, prepProduct]
+            })
+
+            readyData = {
+                ...state, qty: newQty, price: newPrice,products: products
+            }
+            localStorage.setItem("shoppingCart",JSON.stringify(readyData))
+            return readyData
         default:
             return state
     }

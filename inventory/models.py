@@ -148,6 +148,9 @@ class ProductType(models.Model):
         through="ProductTypeAttribute",
     )
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.name
 
@@ -161,6 +164,9 @@ class Brand(models.Model):
         verbose_name=_("brand name"),
         help_text=_("format: required, unique,max-255")
     )
+
+    class Meta:
+        ordering = ['-id']
 
     def __str__(self):
         return self.name

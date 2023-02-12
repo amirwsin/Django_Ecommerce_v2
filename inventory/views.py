@@ -7,7 +7,7 @@ from rest_framework import status, permissions, pagination, generics
 
 class BasicProductView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
-    queryset = Product.objects.prefetch_related()
+    queryset = Product.objects.all().prefetch_related()
     serializer_class = BasicProductSerializer
 
     def get_queryset(self):

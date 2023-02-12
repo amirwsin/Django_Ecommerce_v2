@@ -19,10 +19,56 @@ STATUS_PAYMENT_CHOICES = (
 )
 
 
+class Cart(models.Model):
+    user = models.OneToOneField(User, blank=False, null=False, related_name="user_cart",
+                                verbose_name=_("user cart"), on_delete=models.CASCADE)
+    create_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False,
+        verbose_name=_("date order created"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+    update_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("date order last updated"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+
+    def __str__(self):
+        return self.user.username
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, blank=False, null=False, unique=False, related_name="cart_item",
+                             verbose_name=_("cart item"), on_delete=models.CASCADE)
+
+    product = models.ForeignKey(Product, related_name="cart_item_product", verbose_name=_("cart item product"),
+                                on_delete=models.CASCADE, blank=False, null=False, unique=False)
+    variants = models.ManyToManyField(ProductAttributeValue, blank=False,
+                                      verbose_name=_("product variants"),
+                                      help_text=_("format : selected variants for cart"))
+    qty = models.IntegerField(default=1, verbose_name=_("quantity of product"), blank=False, null=False)
+    create_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False,
+        verbose_name=_("date order created"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+    update_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("date order last updated"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+
+    def __str__(self):
+        return str(self.cart)
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, blank=False, unique=False, null=False, related_name="user_order",
                              verbose_name=_("user order"),
                              on_delete=models.CASCADE)
+
     status = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("order status"),
                               choices=STATUS_CHOICES, default="PENDING",
                               help_text=_(
@@ -73,7 +119,8 @@ class OrderItem(models.Model):
 
 
 class OrderPayment(models.Model):
-    order = models.ForeignKey(Order, related_name="order_item_payment", on_delete=models.CASCADE, verbose_name=_("order"),
+    order = models.ForeignKey(Order, related_name="order_item_payment", on_delete=models.CASCADE,
+                              verbose_name=_("order"),
                               blank=False, null=False, unique=False)
     amount = models.DecimalField(
         max_digits=7,

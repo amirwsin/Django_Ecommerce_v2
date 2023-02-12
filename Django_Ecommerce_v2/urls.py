@@ -21,6 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path('api/cms/', include("cms.urls", namespace="cmsApi")),
                   path('api/user/', include("account.urls", namespace="userApi")),
                   path('api/inventory/', include("inventory.urls", namespace="inventoryApi")),
                   path('api/checkout/', include("checkout.urls", namespace="checkoutApi")),

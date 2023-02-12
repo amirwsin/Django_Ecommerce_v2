@@ -43,7 +43,7 @@ class BasicProductAttributeValueSerializer(serializers.ModelSerializer):
 class BasicStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
-        exclude = ["units_sold","last_checked","product_inventory"]
+        exclude = ["units_sold", "last_checked", "product_inventory"]
 
 
 class BasicProductInventorySerializer(serializers.ModelSerializer):

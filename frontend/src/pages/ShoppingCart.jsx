@@ -4,7 +4,7 @@ import CartCheckout from "../components/CartCheckout";
 
 const ShoppingCart = () => {
     return (
-        <Container maxWidth={"xl"} sx={{marginY:5}}>
+        <Container maxWidth={"xl"} sx={{marginY:5,minHeight:"63vh"}}>
             <Grid container spacing={4}>
                 <Grid item xs={12} lg={8}>
                     <CartProducts />

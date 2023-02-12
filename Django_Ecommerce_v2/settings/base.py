@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'inventory',
     'account.apps.AccountConfig',
     'checkout',
+    'cms',
 ]
 
 MIDDLEWARE = [

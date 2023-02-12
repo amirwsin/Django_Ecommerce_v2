@@ -17,7 +17,7 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import {AlertContext} from "./AlertContext";
 import MySnackBar from "./components/MySnackBar";
-import {loadLocal} from "./features/actions/cartActions";
+import {loadCart, loadLocal} from "./features/actions/cartActions";
 import ShoppingCart from "./pages/ShoppingCart";
 import RestrictPage from "./RestrictPage";
 import PanelLayout from "./components/PanelLayout";
@@ -38,13 +38,15 @@ function App() {
     const providerValue = useMemo(() => ({alertState, setAlertState}), [alertState, setAlertState])
     const [theme, colorMode] = useMode();
 
-
     useEffect(() => {
         token = localStorage.getItem("access_token")
         user = localStorage.getItem("user")
-        dispatch(loadLocal())
         if (token && user) {
+            const readyUser = JSON.parse(user)
             dispatch(loadUser(token))
+            dispatch(loadCart(readyUser.id))
+        } else {
+            dispatch(loadLocal())
         }
         return () => {
             token = null;
