@@ -1,14 +1,19 @@
 from django.shortcuts import render
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Delivery
 from django.contrib.auth.models import User
-from .serializers import BasicCartSerializer
+from .serializers import BasicCartSerializer, BasicDeliverySerializer
 from inventory.models import ProductAttributeValue
 
 
 # Create your views here.
+
+class DeliveryListView(generics.ListAPIView):
+    queryset = Delivery.objects.all()
+    serializer_class = BasicDeliverySerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class CartView(APIView):

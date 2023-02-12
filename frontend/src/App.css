@@ -458,11 +458,41 @@ body {
 .address-card:hover, .address-card-add:hover {
     box-shadow: 0 2px 5px var(--box-shadow-color);
 }
+.custom-divider{
+    text-align: center;
+    margin: 1rem 0;
+}
+.custom-divider-text {;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+    background-color: var(--background-main);
+    padding: 0 1rem;
+}
+
+.custom-divider::after {
+    content: " ";
+    position: relative;
+    display: block;
+    width: 90%;
+    height: 5px;
+    top: -15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: rgb(200, 221, 216);
+    background: radial-gradient(circle, var(--background-dark) 30%, var(--background-main));
+    border-radius: 100px;
+    z-index: 0;
+}
 
 @media (prefers-color-scheme: dark) {
-    root {
+    :root {
+        --box-shadow-color: lightgrey;
+        --background-light: #1b1b1b;
         --background-main: #272727;
         --background-dark: #fdfdfd;
+        --text: #fdfdfd;
     }
 }
 

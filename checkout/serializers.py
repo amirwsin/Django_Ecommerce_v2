@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Delivery
 from account.serializers import BasicUserSerializer
 from inventory.serializers import BasicProductSerializer
+
+
+class BasicDeliverySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
+        fields = "__all__"
 
 
 class BasicCartItemSerializer(serializers.ModelSerializer):

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from inventory.models import Product, ProductAttributeValue
+from account.models import Address
 
 # Create your models here.
 
@@ -64,10 +65,67 @@ class CartItem(models.Model):
         return str(self.cart)
 
 
+class Delivery(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name=_("delivery name"),
+                            help_text=_("format : max-255"))
+
+    image = models.ImageField(
+        unique=False,
+        null=True,
+        blank=True,
+        verbose_name=_("delivery image"),
+        upload_to="images/delivery/",
+        default="images/delivery/default.png",
+        help_text=_("format : required , default-default.png"),
+    )
+
+    price = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        unique=False,
+        null=False,
+        blank=False,
+        verbose_name=_("price of delivery"),
+        help_text=_("format : maximum amount 99999.99"),
+        error_messages={
+            "name": {
+                "max_length": _("the amount must be between 0 and 99999.99"),
+            },
+        },
+    )
+    max_weight = models.FloatField(
+        unique=False,
+        null=False,
+        blank=False,
+        verbose_name=_("maximum weight")
+    )
+    create_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False,
+        verbose_name=_("date payment created"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+    update_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("date payment last updated"),
+        help_text=_("format : y-m-d H:M:S")
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, blank=False, unique=False, null=False, related_name="user_order",
                              verbose_name=_("user order"),
                              on_delete=models.CASCADE)
+
+    address = models.ForeignKey(Address, blank=True, null=True, related_name="address_order",
+                                verbose_name=_("delivery address"),
+                                on_delete=models.SET_NULL)
+    delivery = models.ForeignKey(Delivery, blank=True, null=True, related_name="delivery_order",
+                                 verbose_name=_("delivery method"),
+                                 on_delete=models.SET_NULL)
 
     status = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("order status"),
                               choices=STATUS_CHOICES, default="PENDING",

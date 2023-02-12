@@ -27,6 +27,7 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import SideBar from "./components/dashboard/SideBar";
 import Content from "./components/dashboard/Content";
 import AdminUsers from "./pages/dashboard/AdminUsers";
+import CheckOut from "./pages/CheckOut";
 
 
 let token, user;
@@ -96,6 +97,7 @@ function App() {
                                     <ProductDetails/>}/>
                                 <Route path={"/cart"} element={<ShoppingCart/>
                                 }/>
+                                <Route path={"/cart/checkout"} element={<CheckOut />}/>
                                 <Route path={"*"} element={<h1>not found</h1>}/>
                             </Route>
                             <Route path={"/"} element={<AdminLayout/>}>
