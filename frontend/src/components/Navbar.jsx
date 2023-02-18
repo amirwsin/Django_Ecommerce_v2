@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {Link} from "react-router-dom";
-import {MoreVert, ShoppingCartOutlined} from "@mui/icons-material";
+import {DarkMode, LightMode, MoreVert, ShoppingCartOutlined} from "@mui/icons-material";
 import {
     Avatar, Badge,
     Collapse,
@@ -14,12 +14,13 @@ import {
     IconButton,
     Tooltip
 } from "@mui/material";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import CategoryMenuList from "./CategoryMenuList";
 import SideBarMenu from "./SideBarMenu";
 import {useSelector} from "react-redux";
 import {useQuery} from "@tanstack/react-query";
-import {BasicCategoriesApi} from "../api/CategoriesApi";
+import {BasicCategoriesApi} from "../features/api/CategoriesApi";
+import {ColorModeContext} from "../theme";
 
 
 const Navbar = () => {
@@ -28,6 +29,8 @@ const Navbar = () => {
     const [sideBar, setSideBar] = useState(false)
     const {user, isAuthenticated} = useSelector(state => state.authReducer)
     const {qty} = useSelector(state => state.cartReducer)
+    const [themeColor, setThemeColor] = useState(true)
+    const colorMode = useContext(ColorModeContext)
 
     const handleSideBar = () => {
         setSideBar(prevState => !prevState)
@@ -41,6 +44,12 @@ const Navbar = () => {
         queryKey: ["categories"],
         queryFn: BasicCategoriesApi
     })
+
+    const handleThemeColor = () => {
+        colorMode.toggleColorMode()
+        setThemeColor(prevState => !prevState)
+        document.documentElement.setAttribute('data-theme', themeColor ? 'dark' : 'light');
+    }
 
 
     return (
@@ -68,16 +77,23 @@ const Navbar = () => {
                         </Link>
                     </Box>
                     <Box sx={{display: "flex", flexGrow: 0, gap: 2}}>
-                        <IconButton component={Link} to={"/cart"} color={"background.main"} aria-label={"shopping cart"}>
-                            <Badge  badgeContent={qty} color="secondary">
-                                <ShoppingCartOutlined/>
-                            </Badge>
+                        <IconButton onClick={handleThemeColor}>
+                            {themeColor ? <LightMode sx={{fontSize: "1.85rem"}}/> :
+                                <DarkMode sx={{fontSize: "1.85rem"}}/>}
                         </IconButton>
+                        <Tooltip arrow title="Shopping Cart">
+                            <IconButton component={Link} to={"/cart"} color={"background.main"}
+                                        aria-label={"shopping cart"}>
+                                <Badge badgeContent={qty} color="secondary">
+                                    <ShoppingCartOutlined/>
+                                </Badge>
+                            </IconButton>
+                        </Tooltip>
                         {isAuthenticated && user ?
                             <>
-                                <Tooltip title="Profile">
-                                    <IconButton component={Link} to={"/profile"} sx={{p: 0}}>
-                                        <Avatar>A</Avatar>
+                                <Tooltip arrow title="Dashboard">
+                                    <IconButton component={Link} to={"/user/dashboard"} sx={{p: 0}}>
+                                        <Avatar/>
                                     </IconButton>
                                 </Tooltip>
                             </> :

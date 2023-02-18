@@ -18,7 +18,7 @@ const HeroSection = () => {
                                     className={"hero-section-title"}>
                             Click What You Like And Buy It Instantly
                         </Typography>
-                        <Typography component={"p"} variant={"subtitle1"} className={"hero-section-p"} sx={{width:{xs:"100%",sm:"100%",md:"80%",lg:"60%",xl:"50%"}}}>
+                        <Typography component={"p"} variant={"subtitle1"} className={"hero-section-p"} sx={{color:"#272727",width:{xs:"100%",sm:"100%",md:"80%",lg:"60%",xl:"50%"}}}>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
@@ -27,7 +27,7 @@ const HeroSection = () => {
                             non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </Typography>
                         <Button component={Link} to={"/products"} variant={"contained"} color="black"
-                                sx={{color: "white", width: "25%", justifySelf: "center"}}>
+                                sx={{color: "background.main", width:{xs:"100%",md:"25%"}, justifySelf: "center"}}>
                             Products
                         </Button>
                     </Box>

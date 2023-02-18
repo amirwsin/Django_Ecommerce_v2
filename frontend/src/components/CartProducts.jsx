@@ -1,19 +1,27 @@
 import {Box, Button, ButtonGroup, Chip, Grid, IconButton, Skeleton, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import {decrementProduct, incrementProduct, removeFromCart} from "../actions/cartActions";
+import {
+    decrementProduct,
+    incrementProduct, onlineDecrementProduct, onlineIncrementProduct,
+    onlineRemoveFromCart,
+    removeFromCart
+} from "../features/actions/cartActions";
 import {Delete} from "@mui/icons-material";
 
 const CartProducts = () => {
     const {products} = useSelector(state => state.cartReducer)
     return (
         <Box sx={{
+            position:"relative",
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            flexWrap: "wrap",
-            padding: 3,
+            flexWrap: "nowrap",
+            padding: 1,
             borderRadius: "7px",
+            backgroundColor:"background.main",
+            boxShadow:"0 0 4px var(--box-shadow-color)"
         }}>
             {products.length !== 0 ? products.map(product => <CartProductsItem key={product?.product?.id}
                                                                                data={product}/>) :
@@ -24,6 +32,8 @@ const CartProducts = () => {
 
 const CartProductsItem = ({data}) => {
 
+    const {isAuthenticated, user} = useSelector(state => state.authReducer)
+    const readyUser = JSON.parse(user)
     const dispatch = useDispatch()
     let productAttribute = []
 
@@ -50,15 +60,26 @@ const CartProductsItem = ({data}) => {
 
 
     const handleIncrement = () => {
-        dispatch(incrementProduct(data))
+        if (data?.inventory?.stock?.units >= data.qty) {
+            dispatch(incrementProduct(data))
+            if (isAuthenticated) {
+                dispatch(onlineIncrementProduct(readyUser.id, data.product.id))
+            }
+        }
     }
     const handleDecrement = () => {
         if (data.qty >= 1) {
             dispatch(decrementProduct(data))
+            if (isAuthenticated) {
+                dispatch(onlineDecrementProduct(readyUser.id, data.product.id))
+            }
         }
     }
     const handleRemove = () => {
         dispatch(removeFromCart(data))
+        if (isAuthenticated) {
+            dispatch(onlineRemoveFromCart(readyUser.id, data.product.id))
+        }
     }
 
 
@@ -73,7 +94,7 @@ const CartProductsItem = ({data}) => {
                     <img className={"shoppingCart-product-image"} alt={media != null ? media.alt_text : "image product"}
                          src={media?.image}/>
                 </Grid>
-                <Grid item xs={12} lg={9} sx={{display: "grid", alignItems: "start"}}>
+                <Grid item xs={12} lg={9} sx={{display: "grid", alignItems: "start",gap:2}}>
                     <Box sx={{display: "flex", justifyContent: "space-between"}}>
                         <Typography variant={"h5"} component={Link} to={`/product/${data?.product?.slug}`} sx={{
                             textDecoration: "none",
@@ -107,7 +128,8 @@ const CartProductsItem = ({data}) => {
                     </Box>
                     <Box sx={{display: "flex", justifyContent: "space-between"}}>
                         <ButtonGroup variant="contained" aria-label="cart action buttons">
-                            <Button onClick={handleIncrement}>+</Button>
+                            <Button onClick={handleIncrement}
+                                    disabled={data?.inventory?.stock?.units === data.qty ? true : false}>+</Button>
                             <Button variant={"outlined"}>{data?.qty}</Button>
                             <Button onClick={handleDecrement} disabled={data?.qty > 1 ? false : true}>-</Button>
                         </ButtonGroup>

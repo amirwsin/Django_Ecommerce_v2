@@ -1,6 +1,6 @@
 import {
     LOGIN_PROGRESS,
-    LOGIN_SUCCESS, LOGIN_FAIL
+    LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT
 } from '../types/authTypes'
 
 const initialState = {
@@ -26,8 +26,10 @@ export const authReducer = (state = initialState, action) => {
             }
         case LOGIN_FAIL:
             return {
-                ...state, isLoading: false,
+                ...state, isLoading: false, user: null,
             }
+        case LOGOUT:
+            return initialState
         default:
             return state
     }

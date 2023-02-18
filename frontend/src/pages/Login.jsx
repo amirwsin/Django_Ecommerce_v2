@@ -1,18 +1,21 @@
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
-import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useContext, useState} from "react";
 import {Visibility} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../actions/authActions";
+import {loadUser, login} from "../features/actions/authActions";
+import {AlertContext} from "../AlertContext";
 
 const Login = () => {
 
+    const {setAlertState} = useContext(AlertContext)
+
     const [formData, setFormData] = useState({
         username: "",
-        password: "LkS0U8iilSXGOlEIL8An5DE7Bs6llOTSJwXP8JX8Qd3VY9QiJGAdrz9qgNFvhOdsfkvlw6D71gsFmB7D3HUyvqk0nguU9EF0qgDxeluTupGSHUEoDJGu4P5G8u4XeDyu",
+        password: "",
     })
     const [visibility, setVisibility] = useState(false)
-
+    const navigate = useNavigate();
     const dispatch = useDispatch()
 
     const handleChange = (e) => {
@@ -21,15 +24,50 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(login(formData))
+        if (formData.password.length >= 2) {
+            const result = dispatch(login(formData))
+            result.then((res) => {
+                if (res) {
+                    const finalResult = dispatch(loadUser())
+                    finalResult.then((res2) => {
+                        if (res2) {
+                            setAlertState({
+                                "open": true,
+                                "msg": "Welcome Back To Your Shop",
+                                "color": "success"
+                            })
+                            navigate("/")
+                        } else {
+                            setAlertState({
+                                "open": true,
+                                "msg": "Something Went Wrong Please Try Again !!!",
+                                "color": "error"
+                            })
+                        }
+                    })
+                } else {
+                    setAlertState({
+                        "open": true,
+                        "msg": "Username Or Password Is Incorrect.",
+                        "color": "error"
+                    })
+                }
+            })
+        } else {
+            setAlertState({
+                "open": true,
+                "msg": "Your Password Most Be at least 8 Character",
+                "color": "error"
+            })
+        }
     }
 
     const handleVisibility = () => {
-        setVisibility(prevState => !visibility)
+        setVisibility(prevState => !prevState)
     }
 
     return (
-        <Container maxWidth={"md"} sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+        <Container maxWidth={"md"} sx={{display: "flex", justifyContent: "center", alignItems: "center",minHeight:"75vh"}}>
             <Box className={"form-wrapper"}>
                 <Typography variant={"h3"} component={"p"} sx={{textAlign: "center", fontWeight: "bold"}}>
                     Login

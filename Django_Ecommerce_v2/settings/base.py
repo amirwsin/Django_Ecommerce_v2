@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     "corsheaders",
     # Applications
     'inventory',
-    'account',
+    'account.apps.AccountConfig',
+    'checkout',
+    'cms',
 ]
 
 MIDDLEWARE = [

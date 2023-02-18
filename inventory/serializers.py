@@ -43,7 +43,7 @@ class BasicProductAttributeValueSerializer(serializers.ModelSerializer):
 class BasicStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
-        exclude = ["units_sold","last_checked","product_inventory"]
+        exclude = ["units_sold", "last_checked", "product_inventory"]
 
 
 class BasicProductInventorySerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class BasicProductInventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductInventory
-        exclude = ["retail_price", "store_price", "create_at", "update_at", "product", "weight"]
+        exclude = ["retail_price", "store_price", "create_at", "update_at", "product"]
         depth = 2
 
     def get_media(self, obj):

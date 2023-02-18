@@ -68,7 +68,7 @@ const Footer = () => {
             </Container>
             <Divider variant={"middle"}/>
             <Typography component={"p"} variant={"subtitle2"} textAlign={"center"} marginY={2}>
-                ©{date} this template created by amirwsin All Rights Reserved.
+                ©{date} this template created by Varlam Zhordania All Rights Reserved.
             </Typography>
         </Box>
     )

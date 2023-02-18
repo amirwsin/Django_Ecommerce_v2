@@ -2,15 +2,15 @@ import {Box, Button, Chip, Divider, IconButton, Skeleton, Typography} from "@mui
 import ProductAttribute from "./ProductAttribute";
 import {useContext, useEffect, useState} from "react";
 import {AddShoppingCart, Favorite} from "@mui/icons-material";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../actions/cartActions";
+import {useDispatch, useSelector} from "react-redux";
+import {addToCart, onlineAddToCart} from "../features/actions/cartActions";
 import MySnackBar from "./MySnackBar";
 import {AlertContext} from "../AlertContext";
 
 const ProductDetail = ({data, setSelection, isLoading}) => {
 
     const {setAlertState} = useContext(AlertContext)
-
+    const {user,isAuthenticated} = useSelector(state => state.authReducer)
     let productAttribute = []
     const [currentInventory, setCurrentInventory] = useState(data?.inventory && data?.inventory[0])
     const [variants, setVariants] = useState({})
@@ -76,12 +76,11 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
         if (variantCheckResult) {
             preData = {"product": data, "variant": variants, "inventory": currentInventory, "qty": 1}
             delete preData.product.inventory
-            // setAlertState({
-            //     "open": true,
-            //     "msg": `Product Added To Your Shopping Cart`,
-            //     "color": "success"
-            // })
             dispatch(addToCart(preData))
+            if (isAuthenticated){
+                const readyUser = JSON.parse(user)
+                dispatch(onlineAddToCart(readyUser.id,preData))
+            }
         } else {
             setAlertState({"open": true, "msg": "Please Select Variants", "color": "error"})
         }
@@ -155,7 +154,7 @@ const ProductDetail = ({data, setSelection, isLoading}) => {
                 }
             </Box>
             <Divider variant={"fullWidth"}/>
-            <Button color={"primary"} variant={"contained"} onClick={handleAddToCart} endIcon={<AddShoppingCart/>}>Add
+            <Button color={"black"} sx={{color:"white"}} variant={"contained"} onClick={handleAddToCart} endIcon={<AddShoppingCart/>}>Add
                 To Cart</Button>
             <Button color={"error"} variant={"outlined"} endIcon={<Favorite/>}>Add To Favorite</Button>
         </Box>

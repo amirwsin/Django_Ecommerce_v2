@@ -1,10 +1,15 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Typography,} from "@mui/material";
 import {useSelector} from "react-redux";
 
-const CartCheckout = () => {
+const CartCheckout = ({children}) => {
     const {qty, price} = useSelector(state => state.cartReducer)
     return (
-        <Box sx={{boxShadow: "2px 2px 8px grey", padding: 3, borderRadius: "7px"}}>
+        <Box sx={{
+            boxShadow: "0 0 4px var(--box-shadow-color)",
+            padding: 3,
+            borderRadius: "7px",
+            backgroundColor: "background.main"
+        }}>
             <ul className={"checkout-list"}>
                 <li className={"checkout-list-item"}>
                     <Typography variant={"h5"} fontWeight={600} component={"span"}>
@@ -22,6 +27,7 @@ const CartCheckout = () => {
                         ${price}
                     </Typography>
                 </li>
+                {children}
             </ul>
         </Box>
     )

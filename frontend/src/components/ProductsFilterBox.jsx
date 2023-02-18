@@ -2,8 +2,8 @@ import {Box, Checkbox, Collapse, List, ListItemButton, ListItemText} from "@mui/
 import {useState} from "react";
 import * as React from "react";
 import {useQuery} from "@tanstack/react-query";
-import {BasicCategoriesApi} from "../api/CategoriesApi";
-import {BasicBrandApi} from "../api/BrandsApi";
+import {BasicCategoriesApi} from "../features/api/CategoriesApi";
+import {BasicBrandApi} from "../features/api/BrandsApi";
 
 const ProductsFilterBox = ({params, setParam}) => {
     const [showCategories, setShowCategories] = useState(true)
