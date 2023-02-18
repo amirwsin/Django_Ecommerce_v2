@@ -67,7 +67,7 @@ const Login = () => {
     }
 
     return (
-        <Container maxWidth={"md"} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Container maxWidth={"md"} sx={{display: "flex", justifyContent: "center", alignItems: "center",minHeight:"75vh"}}>
             <Box className={"form-wrapper"}>
                 <Typography variant={"h3"} component={"p"} sx={{textAlign: "center", fontWeight: "bold"}}>
                     Login

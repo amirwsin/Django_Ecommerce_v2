@@ -21,7 +21,7 @@ const PanelLayout = ({children}) => {
     }
 
     return (
-        <Container maxWidth={"xl"} sx={{marginY: 5}}>
+        <Container maxWidth={"xl"} sx={{marginY: 5,minHeight:"60vh"}}>
             <Grid container spacing={5}>
                 <Grid item xs={12} sm={12} md={4} lg={3} display={"flex"} flexDirection={"column"} gap={2}>
                     <Box sx={Style} padding={3}>

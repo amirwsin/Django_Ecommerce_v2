@@ -33,10 +33,6 @@ axiosInstance.interceptors.response.use((response) => {
             window.location.href = '/login';
             return Promise.reject(error)
         }
-        // if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
-        //     window.location.replace('/verify/user')
-        //     return Promise.reject(error)
-        // }
         if (error.response.data.detail === 'Invalid token header. No credentials provided.' && error.response.status === 401 && error.response.statusText === 'Unauthorized') {
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken && refreshToken !== 'undefined' && refreshToken !== null) {
@@ -47,13 +43,13 @@ axiosInstance.interceptors.response.use((response) => {
                     client_secret: client_secret
                 }
                 return axiosBasicInstance.post('/auth/token/', prepData).then((res) => {
-                    console.log(res.data)
                     localStorage.setItem('access_token', res.data.access_token)
                     localStorage.setItem('refresh_token', res.data.refresh_token)
                     axiosInstance.defaults.headers['Authorization'] =
                         'JWT ' + rres.data.access_token;
                     originalRequest.headers['Authorization'] =
                         'JWT ' + res.data.access_token;
+                    window.location.reload()
                     return axiosInstance(originalRequest);
                 }).catch((err) => {
                     console.log(err)

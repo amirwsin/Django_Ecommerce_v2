@@ -19,7 +19,7 @@ const ProductDetails = () => {
 
 
     return (
-        <Container sx={{marginY: 5}} maxWidth={"xl"}>
+        <Container sx={{marginY: 5,minHeight:"60vh"}} maxWidth={"xl"}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4} lg={5}>
                     <ProductDetailGallery data={ProductQuery.data}/>

@@ -1,4 +1,15 @@
-import {Box, Container, Grid, Stack, Typography} from "@mui/material";
+import {
+    Box,
+    Container,
+    Grid,
+    Stack,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material";
 import {LocalAtm, MonetizationOn, Person, Sell, TrendingUp} from "@mui/icons-material";
 import {ResponsiveContainer, LineChart, XAxis, YAxis, Tooltip, Legend, Line} from "recharts";
 
@@ -45,6 +56,44 @@ const data = [
         "pv": 4300,
         "amt": 2100
     }
+]
+
+const orderData = [
+    {
+        "id": 1,
+        "user": "joe",
+        "amount": 24,
+        "status": "Pending",
+        "payment_status": "Completed",
+    },
+    {
+        "id": 2,
+        "user": "sara",
+        "amount": 33,
+        "status": "canceled",
+        "payment_status": "Pending",
+    },
+    {
+        "id": 3,
+        "user": "rose",
+        "amount": 110,
+        "status": "Processing",
+        "payment_status": "Completed",
+    },
+    {
+        "id": 4,
+        "user": "jane doe",
+        "amount": 15,
+        "status": "Processing",
+        "payment_status": "Completed",
+    },
+    {
+        "id": 5,
+        "user": "michale",
+        "amount": 99.99,
+        "status": "Completed",
+        "payment_status": "Completed",
+    },
 ]
 
 const AdminDashboard = () => {
@@ -165,6 +214,45 @@ const AdminDashboard = () => {
                                 <Line type="monotone" dataKey="uv" stroke="#b4c7c2"/>
                             </LineChart>
                         </ResponsiveContainer>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                    <Box className={"card"}>
+                        <Box sx={{
+                            position: "relative",
+                            display: "block",
+                            borderBottom: "1px solid var(--background-dark)"
+                        }}>
+                            <Typography variant={"subtitle1"} component={"p"}>Last 10 Orders</Typography>
+                        </Box>
+                        <Box>
+                            <TableContainer>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>ID</TableCell>
+                                            <TableCell align="left">User</TableCell>
+                                            <TableCell align="left">Amount</TableCell>
+                                            <TableCell align="left">Status</TableCell>
+                                            <TableCell align="left">Payment</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {orderData.map(order => <TableRow
+                                            key={order.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                            <TableCell component="th" scope="row">{order.id}</TableCell>
+                                            <TableCell align="left">{order.user}</TableCell>
+                                            <TableCell align="left">${order.amount}</TableCell>
+                                            <TableCell align="left"
+                                                       sx={{color: order.status === "Pending" ? "info.main" : order.status === "Completed" ? "success.light" : order.status === "canceled" ? "grey" : "warning.main"}}>{order.status}</TableCell>
+                                            <TableCell align="left"
+                                                       sx={{color: order.payment_status === "Pending" ? "info.main" : order.payment_status === "Completed" ? "success.light" : "warning.main"}}>{order.payment_status}</TableCell>
+                                        </TableRow>)}
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>

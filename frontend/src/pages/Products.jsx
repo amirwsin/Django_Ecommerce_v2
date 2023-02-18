@@ -24,7 +24,7 @@ const Products = () => {
 
 
     return (
-        <Container maxWidth={false} sx={{marginY: 5}}>
+        <Container maxWidth={false} sx={{marginY: 5,minHeight:"60vh"}}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4} xl={2}>
                     <ProductsFilterBox params={categoryField} setParam={setCategoryField}/>

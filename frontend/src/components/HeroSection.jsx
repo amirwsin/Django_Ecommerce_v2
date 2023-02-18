@@ -27,7 +27,7 @@ const HeroSection = () => {
                             non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </Typography>
                         <Button component={Link} to={"/products"} variant={"contained"} color="black"
-                                sx={{color: "background.main", width: "25%", justifySelf: "center"}}>
+                                sx={{color: "background.main", width:{xs:"100%",md:"25%"}, justifySelf: "center"}}>
                             Products
                         </Button>
                     </Box>

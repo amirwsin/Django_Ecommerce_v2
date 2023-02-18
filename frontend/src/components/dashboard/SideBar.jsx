@@ -1,5 +1,5 @@
 import {Box, Divider, Tooltip, Typography} from "@mui/material";
-import {Category, Dashboard, Group, Inventory} from "@mui/icons-material";
+import {Category, Chat, Dashboard, Group, Inventory, Settings, Widgets} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 
 const SideBar = () => {
@@ -54,19 +54,27 @@ const SideBar = () => {
                         </li>
                         <Divider variant={"fullWidth"}/>
                         <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
-                            <Tooltip title={"Categories"} arrow>
-                                <Category/>
+                            <Tooltip title={"Settings"} arrow>
+                                <Settings/>
                             </Tooltip>
                             <Typography variant={"h6"}>
-                                Categories
+                                Settings
                             </Typography>
                         </li>
                         <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
-                            <Tooltip title={"Categories"} arrow>
-                                <Category/>
+                            <Tooltip title={"Widgets"} arrow>
+                                <Widgets/>
                             </Tooltip>
                             <Typography variant={"h6"}>
-                                Categories
+                                Widgets
+                            </Typography>
+                        </li>
+                        <li className={"sidebar-wrapper-inner-list-item"} onClick={handleClick}>
+                            <Tooltip title={"Chat"} arrow>
+                                <Chat/>
+                            </Tooltip>
+                            <Typography variant={"h6"}>
+                                Chat
                             </Typography>
                         </li>
                     </ul>

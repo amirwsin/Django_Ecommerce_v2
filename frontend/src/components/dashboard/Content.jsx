@@ -1,5 +1,5 @@
-import {AppBar, Box, IconButton, Switch, TextField, Toolbar} from "@mui/material";
-import {AccountCircle, DarkMode, LightMode, MoreVert, Search, Settings} from "@mui/icons-material";
+import {AppBar, Badge, Box, IconButton, Switch, TextField, Toolbar} from "@mui/material";
+import {AccountCircle, DarkMode, LightMode, MoreVert, Notifications, Search, Settings} from "@mui/icons-material";
 import {ColorModeContext} from "../../theme";
 import {useContext, useState} from "react";
 
@@ -37,7 +37,7 @@ const Content = ({children}) => {
                         <MoreVert sx={{fontSize: "1.85rem"}}/>
                     </IconButton>
                     <Box className={"search-box"}>
-                            <Search/>
+                        <Search/>
                         <input type={"search"} name={"search"} id={"search"}/>
                     </Box>
                     <Box sx={{display: {xs: "none", sm: "block"}}}>
@@ -47,10 +47,17 @@ const Content = ({children}) => {
                         </IconButton>
                         <IconButton>
                             <AccountCircle sx={{fontSize: "1.85rem"}}/>
+
+                        </IconButton>
+                        <IconButton>
+                            <Badge color={"error"} badgeContent={2}>
+                                <Notifications sx={{fontSize: "1.85rem"}}/>
+                            </Badge>
                         </IconButton>
                         <IconButton>
                             <Settings sx={{fontSize: "1.85rem"}}/>
                         </IconButton>
+
                     </Box>
                 </Toolbar>
             </AppBar>
